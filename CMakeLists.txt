@@ -32,9 +32,7 @@ FIND_PACKAGE ( PNG )
 
 IF (NOT PNG_FOUND)
 	MESSAGE ( WARNING " Unable to find PNG library - tests will not be built." )
-	SET ( BUILD_TESTS 0 )
 ELSE (NOT PNG_FOUND)
-	MESSAGE ( INFO " Found PNG library - building tests." )
 	SET ( BUILD_TESTS 1 )
 ENDIF (NOT PNG_FOUND)
 
@@ -54,8 +52,26 @@ SET(LIBRARY_SRCS
 	open-simplex-noise.h
 )
 
+SET(TEST_SRCS
+	open-simplex-noise-test.c
+)
+
 ADD_LIBRARY(${Library} ${LIBRARY_SRCS})
 
 TARGET_LINK_LIBRARIES (
         ${Library}
 )
+
+IF ( BUILD_TESTS )
+
+	MESSAGE ( INFO " Found PNG library - building " ${Test_Executable} )
+	
+	TARGET_LINK_LIBRARIES (
+        ${Library}
+        ${PNG_LIBRARY}
+	)
+	ADD_EXECUTABLE(${Test_Executable} ${TEST_SRCS} )
+
+ENDIF ( BUILD_TESTS )
+
+
