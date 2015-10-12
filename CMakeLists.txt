@@ -66,11 +66,13 @@ IF ( BUILD_TESTS )
 
 	MESSAGE ( INFO " Found PNG library - building " ${Test_Executable} )
 	
-	TARGET_LINK_LIBRARIES (
-        ${Library}
-        ${PNG_LIBRARY}
-	)
 	ADD_EXECUTABLE(${Test_Executable} ${TEST_SRCS} )
+
+	TARGET_LINK_LIBRARIES (
+		${Test_Executable}
+       		${Library}
+ 		${PNG_LIBRARY_RELEASE}
+	)
 
 ENDIF ( BUILD_TESTS )
 
