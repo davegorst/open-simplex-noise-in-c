@@ -32,6 +32,30 @@ FIND_PACKAGE ( PNG )
 
 IF (NOT PNG_FOUND)
 	MESSAGE ( WARNING " Unable to find PNG library - tests will not be built." )
+	SET ( BUILD_TESTS 0 )
 ELSE (NOT PNG_FOUND)
 	MESSAGE ( INFO " Found PNG library - building tests." )
+	SET ( BUILD_TESTS 1 )
 ENDIF (NOT PNG_FOUND)
+
+# Set the library name.
+
+SET(CurrentProject ${CMAKE_PROJECT_NAME})
+SET(Library "${CurrentProject}")
+MESSAGE (STATUS "Setting library name as ${Library}")
+
+# Library build details.
+
+SET(LIBRARY_SRCS
+	open-simplex-noise.c
+	
+	# Headers
+	
+	open-simplex-noise.h
+)
+
+ADD_LIBRARY(${Library} ${LIBRARY_SRCS})
+
+TARGET_LINK_LIBRARIES (
+        ${Library}
+)
