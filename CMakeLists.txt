@@ -70,7 +70,7 @@ IF ( BUILD_TESTS )
 
 	TARGET_LINK_LIBRARIES (
 		${Test_Executable}
-       	${Library}
+       		${Library}
  		${PNG_LIBRARY_RELEASE}
 	)
 
