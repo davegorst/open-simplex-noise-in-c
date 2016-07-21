@@ -18,7 +18,7 @@ static int write_png_image(const char *filename, unsigned char *pixels, int w, i
 	png_structp png_ptr;
 	png_infop info_ptr;
 	png_byte **row;
-	int x, y, rc, colordepth = 8;
+	int x, y, rc = 0, colordepth = 8;
 	int bytes_per_pixel = has_alpha ? 4 : 3;
 	FILE *f;
 
