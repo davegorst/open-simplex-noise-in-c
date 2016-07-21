@@ -70,7 +70,7 @@ SET(TEST_SRCS
 	open-simplex-noise-test.c
 )
 
-ADD_LIBRARY(${Library} ${LIBRARY_SRCS})
+ADD_LIBRARY(${Library} SHARED ${LIBRARY_SRCS})
 
 TARGET_LINK_LIBRARIES (
         ${Library}
