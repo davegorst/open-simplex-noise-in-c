@@ -10,7 +10,11 @@ IF ( NOT CPACK_GENERATOR )
 		MESSAGE ("Setting NSIS installer for Windows.")
 		SET(CPACK_GENERATOR NSIS)
 	ELSE (WIN32)
-		IF (EXISTS /etc/debian_version)
+		IF (APPLE)
+			MESSAGE ("Setting Package Maker package for Mac OS X system.")
+			# TODO
+			
+		ELSEIF (EXISTS /etc/debian_version)
 			MESSAGE ("Setting DEB package for Debian based system.")
 			SET(CPACK_GENERATOR DEB)
 		ELSEIF (EXISTS /etc/redhat-release)
