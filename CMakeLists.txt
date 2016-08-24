@@ -18,6 +18,7 @@ IF ( NOT CPACK_GENERATOR )
 			MESSAGE ("Setting DEB package for Debian based system.")
 			SET(CPACK_GENERATOR DEB)
 		ELSEIF (EXISTS /etc/redhat-release)
+			# This requires you to install rpm-build  (note the dash).
 			MESSAGE ("Setting RPM package for RedHat based system.")
 			SET(CPACK_GENERATOR RPM)
 		ELSE ()
@@ -105,6 +106,16 @@ INSTALL (FILES ${HEADERS} DESTINATION include COMPONENT Headers)
 
 IF ( BUILD_TESTS )
 
+	IF (NOT PNG_LIBRARY)
+		IF (PNG_LIBRARY_RELEASE)
+			SET (PNG_LIBRARY ${PNG_LIBRARY_RELEASE})
+		ELSEIF (PNG_LIBRARY_DEBUG)
+			SET (PNG_LIBRARY ${PNG_LIBRARY_DEBUG})
+		ELSE ()
+			MESSAGE ( ERROR "No PNG library found!" )
+		ENDIF ()
+	ENDIF (NOT PNG_LIBRARY)
+
 	MESSAGE ( INFO " Building tests " ${Test_Executable} )
 	
 	# ADD_EXECUTABLE(${Test_Executable} ${TEST_SRCS} )
@@ -113,7 +124,7 @@ IF ( BUILD_TESTS )
 	TARGET_LINK_LIBRARIES (
 		${Test_Executable}
 		${Library}
- 		${PNG_LIBRARY_RELEASE}
+ 		${PNG_LIBRARY}
 	)
 	
 	INSTALL (TARGETS ${Test_Executable} DESTINATION bin COMPONENT Tests)
