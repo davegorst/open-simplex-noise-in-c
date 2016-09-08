@@ -52,6 +52,10 @@ INCLUDE (CPack)
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR} ./)
 INCLUDE_DIRECTORIES ( ${INCLUDE_DIRECTORIES} ${CMAKE_SOURCE_DIR}/ )
 
+# Add our test target.
+
+ADD_CUSTOM_TARGET(check COMMAND ${CMAKE_CTEST_COMMAND})
+
 FIND_PACKAGE ( ZLIB )
 
 IF ( ZLIB_FOUND )
@@ -103,7 +107,8 @@ IF ( BUILD_TESTS )
 
 	MESSAGE ( INFO " Building tests " ${Test_Executable} )
 	
-	ADD_EXECUTABLE(${Test_Executable} ${TEST_SRCS} )
+	# ADD_EXECUTABLE(${Test_Executable} ${TEST_SRCS} )
+	ADD_EXECUTABLE(${Test_Executable} EXCLUDE_FROM_ALL ${TEST_SRCS} )
 
 	TARGET_LINK_LIBRARIES (
 		${Test_Executable}
@@ -112,6 +117,9 @@ IF ( BUILD_TESTS )
 	)
 	
 	INSTALL (TARGETS ${Test_Executable} DESTINATION bin COMPONENT Tests)
+
+	ADD_TEST(${Test_Executable} ${Test_Executable})
+	ADD_DEPENDENCIES(check ${Test_Executable})
 
 ENDIF ( BUILD_TESTS )
 
