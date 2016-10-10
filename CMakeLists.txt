@@ -4,6 +4,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6.0)
 
 SET(CurrentProject ${CMAKE_PROJECT_NAME})
 SET(Test_Executable "opensimplex-test")
+ENABLE_TESTING()
 
 IF ( NOT CPACK_GENERATOR )
 	IF (WIN32)
@@ -129,7 +130,7 @@ IF ( BUILD_TESTS )
 	
 	INSTALL (TARGETS ${Test_Executable} DESTINATION bin COMPONENT Tests)
 
-	ADD_TEST(${Test_Executable} ${Test_Executable})
+	ADD_TEST(NAME generate COMMAND ${Test_Executable} --exe ${Test_Executable})
 	# ADD_DEPENDENCIES(check ${Test_Executable})
 
 ENDIF ( BUILD_TESTS )
