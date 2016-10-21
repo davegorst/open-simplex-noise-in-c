@@ -1,9 +1,18 @@
-language: cpp
-compiler:
-  - clang
-  - gcc
-before_script:
-  - cmake .
-script:
-  - make
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "GBWbxu28zExKmP2KBYAN1FWfxAmUJUVTPqf+m5drrHgPUuVutLKxyY9Gm1QbbopGynvIlXmzn1U7/mRomEtKXgYOB3Hhvzn8ntNUiyS+C8MOVpZ8hNoSiErVVaJy3TLUVOk6lokRDQl7YXTskc+l+A/QvU7UzuteEyq4afP7bT3g85HrZpT+04vajRE7ewNU9+NkXVTA6gptnJ7yl2E39mXDIJWJHorFHLCu/IOhQkl0S+qo9CgS2NndP+1iJ0JwNlNSUNkQpfizVvWJQKhkrEM3c6MEZS9S2S1c9D1g7aNkPpwaNhoKRWu1KG2xiPpDV0lKw+BWLFq4GHtvH+DSFI7y9uDldUUkq16AkG0v0YJ5BQgvkV4T3gFKOdd27TpXsyKUlHy8CUcR9BfxT9/if4FXNfZh5yQSj01ywXw9W0xaVepRmq2xvxSRyp7h3SM95qGLtNebcCGpe6/NcEI3J4q4vW9HE029b4SNAdmPpTV7lVhSy/aFljp3IjrZud12MdK0jExFBceBm3F8jVPISCzRMGD6Mf3P4ewD/JI9jZUzPYvZpaGIbkQcQD5EYPcPF0+Ej2XGhWkABupMBXYr//NCMMQ1BCergVky6tBSAQ5uzLW6iRMW2evM74BX7okIg1Hi+oL8+OCH2sUBD+BH9GbV9k0YiNtWJc9541RPiWY="
 
+before_install:
+      - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+
+addons:
+  coverity_scan:
+    project:
+      name: "davegorst/open-simplex-noise-in-c"
+      description: "Open Simplex In C"
+    notification_email: dgorst@gmail.com
+    build_command_prepend: "cmake ."
+    build_command:   "make"
+    branch_pattern: coverity_scan
